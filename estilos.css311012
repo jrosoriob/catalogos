@@ -1,0 +1,78 @@
+@charset "ISO-8859-1";
+/* CSS Document */
+
+body  {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	background: #FFFF99;
+	margin: 0; 
+	padding: 0; 
+	color: #000000;
+}
+
+h1{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:36px;
+	color: #000000;
+	text-align:center;
+}
+
+#mainContent{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #000000;
+	text-align:center;
+}
+
+#indice{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;
+	color:#000000;
+}
+
+#bienvenido{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:18px;
+	color:#000000;
+	text-align:center;
+	
+}
+
+#texto{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000000;
+	
+}
+
+#mensajes{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;
+	color:#000000;
+	text-align:center;
+	
+}
+
+#texto_tablas{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;
+	color:#000000;
+	
+}
+
+#texto_tablas_tit{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:15px;
+	font-weight: bold;
+	color: #000000;
+	text-align:center;
+	
+}
+
+#texto_tablas2{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;
+	color:#000000;
+	text-align:left;
+}
+
+
