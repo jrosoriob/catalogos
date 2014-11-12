@@ -4,9 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
 <title>Entrada</title>
-<link rel="stylesheet" type="text/css" href="estilos.css" />
+	<link href="css/styles_v2.css" rel="stylesheet" type="text/css">
+	<link href="css/forms.css" rel="stylesheet" type="text/css">
 </head>
-<script language="JavaScript" type="text/javascript" src="ajax.js"></script>
+<script language="JavaScript" type="text/javascript" src="ajax.js"></script>	
 <script LANGUAGE="JavaScript1.1">
 
 <!-- Adaptado por Tk: Compatible con IE y NS -->
@@ -32,8 +33,12 @@ function abrirajax(pagina, par1, par2, div)
 function validanumero(numero){
 	if (!/^([0-9])*$/.test(numero))
 	alert("El valor " + numero + " no es un n"+String.fromCharCode(250)+"mero");
-	}
-	
+}
+
+function backToPage(){
+		window.location.href = "prg_cambio_empl.asp";
+}
+
 function validar(formulario) {
 	if (formulario.nombre.value.length <=0) {
 		alert("Por favor teclea un nombre.");
@@ -261,361 +266,379 @@ if session("sesusu")="" then
 	Response.Redirect ("entrada.asp") 
 end if
 %>
-	<form action="prg_alta_emp2.asp" method="post" name="forma1">
-		<div align="center">
-		<br><br>
-		<h5>
-			Alta de Empleado
-		</h5>
-		<table border="0">
-			<tr>
-				<td id="texto_tablas2">Nombre</td>
-				<td align="left"><input type="text" name="nombre" maxlength="45" size="25"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Apellido Paterno</td>
-				<td align="left"><input type="text" name="apaterno" maxlength="45" size="25"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Apellido Materno</td>
-				<td align="left"><input type="text" name="amaterno" maxlength="45" size="25"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Sexo</td>
-				<td align="left"><select name="sexo">
-					<option value="0" selected>Selecciona
-					<%
-					sql="select id_sexo, descripcion from tc_sexo order by id_Sexo;"
-					set rs=Conn.execute(sql)
-					
-					while not rs.eof
-					%>
-						<option value="<%=rs("id_sexo")%>"><%=rs("descripcion")%>
-					<%
-						rs.movenext
-					wend
-					%>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Estado Civil</td>
-				<td align="left"><select name="edociv">
-					<option value="0" selected>Selecciona
-					<%
-					sql="select id_estado, descripcion from tc_estadocivil order by descripcion;"
-					set rs=Conn.execute(sql)
-					
-					while not rs.eof
-					%>
-						<option value="<%=rs("id_estado")%>"><%=rs("descripcion")%>
-					<%
-						rs.movenext
-					wend
-					%>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Nivel M&aacute;ximo de Estudios</td>
-				<td align="left"><select name="estudio">
-					<option value="0" selected>Selecciona
-					<%
-					sql="select id_estudios, descripcion from tc_estudios order by id_estudios;"
-					set rs=Conn.execute(sql)
-					
-					while not rs.eof
-					%>
-						<option value="<%=rs("id_estudios")%>"><%=rs("descripcion")%>
-					<%
-						rs.movenext
-					wend
-					%>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Departamento</td>
-				<td align="left"><select name="seldepto">
-					<option value="0" selected>Selecciona
-					<%
-					sql="select id_departamento, descripcion from tc_departamento order by descripcion;"
-					set rs=Conn.execute(sql)
-					
-					while not rs.eof
-					%>
-						<option value="<%=rs("id_departamento")%>"><%=rs("descripcion")%>
-					<%
-						rs.movenext
-					wend
-					%>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Fecha de Ingreso</td>
-				<td align="left"><select name="diaing">
-					<option value="0">D&iacute;a</option>
-					<%
-					vdia=1
-					while vdia<=31
-						if vdia<10 then
-							cdia="0"&vdia
-						else
-							cdia=""&vdia
-						end if
-						%>
-						<option value="<%=vdia%>"><%=cdia%>
-						<%
-						vdia=vdia+1
-					wend
-					%>
-					</select>
-					/
-					<select name="mesing">
-					<option value="0">Mes</option>
-					<%
-					vmes=1
-					while vmes<=12
-						cmes=mes(vmes)
-						%>
-						<option value="<%=vmes%>"><%=cmes%>
-						<%
-						vmes=vmes+1
-					wend
-					%>
-					</select>
-					/
-					<select name="anioing">
-					<option value="0">A&ntilde;o</option>
-					<%
-					
-					vanio=2004
-					while vanio<=year(now)
-						%>
-						<option value="<%=vanio%>"><%=vanio%>
-						<%
-						vanio=vanio+1
-					wend
-					%>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Fecha de Nacimiento</td>
-				<td align="left"><select name="dianac">
-					<option value="0">D&iacute;a</option>
-					<%
-					vdia=1
-					while vdia<=31
-						if vdia<10 then
-							cdia="0"&vdia
-						else
-							cdia=""&vdia
-						end if
-						%>
-						<option value="<%=vdia%>"><%=cdia%>
-						<%
-						vdia=vdia+1
-					wend
-					%>
-					</select>
-					/
-					<select name="mesnac">
-					<option value="0">Mes</option>
-					<%
-					vmes=1
-					while vmes<=12
-						cmes=mes(vmes)
-						%>
-						<option value="<%=vmes%>"><%=cmes%>
-						<%
-						vmes=vmes+1
-					wend
-					%>
-					</select>
-					/
-					<select name="anionac">
-					<option value="0">A&ntilde;o</option>
-					<%
-					
-					vanio=1930
-					while vanio<=(year(now)-15)
-						%>
-						<option value="<%=vanio%>"><%=vanio%>
-						<%
-						vanio=vanio+1
-					wend
-					%>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">RFC</td>
-				<td align="left"><input type="text" name="rfc" maxlength="15" size="25" onChange="abrirajax('prg_funcionesajax.asp', 6, this.value, 'dato6');"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2" colspan="2"><div id="dato6"></div></td>				
-			</tr>
-			<tr>
-				<td id="texto_tablas2">CURP</td>
-				<td align="left"><input type="text" name="curp" maxlength="18" size="25"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Seguro Social</td>
-				<td align="left"><input type="text" name="nss" maxlength="11" size="25"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Puesto</td>
-				<td><select name="selpuesto">
-					<option value="0" selected>Selecciona
-					<%
-					sql="select id_puesto, descripcion from tc_puesto order by descripcion;"
-					set rs=Conn.execute(sql)
-					
-					while not rs.eof
-					%>
-						<option value="<%=rs("id_puesto")%>"><%=rs("descripcion")%>
-					<%
-						rs.movenext
-					wend
-					%>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Plaza</td>
-				<td align="left"><input type="text" name="plaza" maxlength="25" size="25"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Sueldo</td>
-				<td align="left"><input type="text" name="sueldo" maxlength="10" size="25" onChange="validanumero(this.value);"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Tipo de Bono</td>
-				<td align="left"><select name="selbono" onchange="abrirajax('prg_funcionesajax.asp', 1, this.value, 'dato1');">
-					<option value="0" selected>Selecciona
-					<%
-					sql="select id_tipobono, descripcion from tc_tipobono order by descripcion;"
-					set rs=Conn.execute(sql)
-					
-					while not rs.eof
-					%>
-						<option value="<%=rs("id_tipobono")%>"><%=rs("descripcion")%>
-					<%
-						rs.movenext
-					wend
-					%>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2" colspan="2"><div id="dato1"></div></td>				
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Estado</td>
-				<td align="left"><select name="estado" onchange="abrirajax('prg_funcionesajax.asp', 2, this.value, 'dato2');">
-					<option value="0" selected>Selecciona
-					<%
-					sql="select id_estado, nombre from tc_estado order by id_estado;"
-					set rs=Conn.execute(sql)
-					
-					while not rs.eof
-					%>
-						<option value="<%=rs("id_estado")%>"><%=rs("nombre")%>
-					<%
-						rs.movenext
-					wend
-					%>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2" colspan="2"><div id="dato2"></div></td>				
-			</tr>
-			<tr>
-				<td id="texto_tablas2" colspan="2"><div id="dato3"></div></td>				
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Calle</td>
-				<td align="left"><input type="text" name="calle" maxlength="50" size="25"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Tel&eacute;fono</td>
-				<td align="left"><input type="text" name="tel" maxlength="10" size="25"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Tel&eacute;fono Celular</td>
-				<td align="left"><input type="text" name="cel" maxlength="15" size="25"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Usuario</td>
-				<td align="left"><input type="text" name="usuario" maxlength="11" size="25" onChange="abrirajax('prg_funcionesajax.asp', 4, this.value, 'dato4');"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2" colspan="2"><div id="dato4"></div></td>				
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Correo</td>
-				<td align="left"><input type="text" name="correo" maxlength="50" size="25"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Numero de Empleado</td>
-				<td align="left"><input type="text" name="noemp" maxlength="11" size="25" onChange="abrirajax('prg_funcionesajax.asp', 5, this.value, 'dato5');"></td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2" colspan="2"><div id="dato5"></div></td>				
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Banco</td>
-				<td align="left"><select name="selbanco">
-					<option value="0" selected>Selecciona
-					<%
-					sql="select id_banco, banco from tc_banco order by banco;"
-					set rs=Conn.execute(sql)
-					
-					while not rs.eof
-					%>
-						<option value="<%=rs("id_banco")%>"><%=rs("banco")%>
-					<%
-						rs.movenext
-					wend
-					%>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Tipo de Cuenta</td>
-				<td align="left"><select name="seltipcta">
-					<option value="0" selected>Selecciona
-					<%
-					sql="select id_tipocuenta, descripcion from tc_tipocuenta order by descripcion;"
-					set rs=Conn.execute(sql)
-					
-					while not rs.eof
-					%>
-						<option value="<%=rs("id_tipocuenta")%>"><%=rs("descripcion")%>
-					<%
-						rs.movenext
-					wend
-					%>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td id="texto_tablas2">Cuenta de Deposito</td>
-				<td align="left"><input type="text" name="cuentadep" maxlength="20" size="25"></td>
-			</tr>
-			
-		</table>
-		<br><br>
-		<input type="button" value="Grabar Empleado" onClick="return validar(forma1)">
-		<br><br>
-		<%
-		rs.close
-		close_conn(Conn)
-		%>
+<div id="wrap">
+	
+	<div id="content">
+		<div id="content_">
+			<%display_children Session("app"), 0, 1, Session("sessuc"), Session("sesperfil")%>
+		<form action="prg_alta_emp2.asp" method="post" name="forma1" class="dark-matter">
+			<br><br>
+			<input type="hidden" name="employed_id" id="employed_id" value="<%=employed_id%>" />
+				<h1>
+					<img src="images/gt9039p/32x32/group_add.png" border="0"> Alta de Empleado
+					<span>Por favor completa todos los campos</span>
+				</h1>
+			<div align="center">
+				<table border="0">
+					<tr>
+						<td id="texto_tablas2">Nombre</td>
+						<td align="left"><input type="text" name="nombre" maxlength="45" size="25"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Apellido Paterno</td>
+						<td align="left"><input type="text" name="apaterno" maxlength="45" size="25"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Apellido Materno</td>
+						<td align="left"><input type="text" name="amaterno" maxlength="45" size="25"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Sexo</td>
+						<td align="left">
+							<select name="sexo" class="select-normal">
+								<option value="0" selected>Selecciona</option>
+								<%
+									sql="select id_sexo, descripcion from tc_sexo order by id_Sexo;"
+									set rs=Conn.execute(sql)
+							
+									while not rs.eof
+									%>
+										<option value="<%=rs("id_sexo")%>"><%=rs("descripcion")%></option>
+									<%
+										rs.movenext
+									wend
+								%>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Estado Civil</td>
+						<td align="left">
+							<select name="edociv" class="select-normal">
+							<option value="0" selected>Selecciona</option>
+							<%
+							sql="select id_estado, descripcion from tc_estadocivil order by descripcion;"
+							set rs=Conn.execute(sql)
+							
+							while not rs.eof
+							%>
+								<option value="<%=rs("id_estado")%>"><%=rs("descripcion")%></option>
+							<%
+								rs.movenext
+							wend
+							%>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Nivel M&aacute;ximo de Estudios</td>
+						<td align="left">
+							<select name="estudio" class="select-normal">
+							<option value="0" selected>Selecciona</option>
+							<%
+							sql="select id_estudios, descripcion from tc_estudios order by id_estudios;"
+							set rs=Conn.execute(sql)
+							
+							while not rs.eof
+							%>
+								<option value="<%=rs("id_estudios")%>"><%=rs("descripcion")%></option>
+							<%
+								rs.movenext
+							wend
+							%>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Departamento</td>
+						<td align="left">
+							<select name="seldepto" class="select-normal">
+							<option value="0" selected>Selecciona</option> 
+							<%
+							sql="select id_departamento, descripcion from tc_departamento order by descripcion;"
+							set rs=Conn.execute(sql)
+							
+							while not rs.eof
+							%>
+								<option value="<%=rs("id_departamento")%>"><%=rs("descripcion")%></option>
+							<%
+								rs.movenext
+							wend
+							%>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Fecha de Ingreso</td>
+						<td align="left"><select name="diaing">
+							<option value="0">D&iacute;a</option>
+							<%
+							vdia=1
+							while vdia<=31
+								if vdia<10 then
+									cdia="0"&vdia
+								else
+									cdia=""&vdia
+								end if
+								%>
+								<option value="<%=vdia%>"><%=cdia%></option>
+								<%
+								vdia=vdia+1
+							wend
+							%>
+							</select>
+							/
+							<select name="mesing">
+							<option value="0">Mes</option>
+							<%
+							vmes=1
+							while vmes<=12
+								cmes=mes(vmes)
+								%>
+								<option value="<%=vmes%>"><%=cmes%></option>
+								<%
+								vmes=vmes+1
+							wend
+							%>
+							</select>
+							/
+							<select name="anioing">
+							<option value="0">A&ntilde;o</option>
+							<%
+							
+							vanio=2004
+							while vanio<=year(now)
+								%>
+								<option value="<%=vanio%>"><%=vanio%></option>
+								<%
+								vanio=vanio+1
+							wend
+							%>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Fecha de Nacimiento</td>
+						<td align="left"><select name="dianac">
+							<option value="0">D&iacute;a</option>
+							<%
+							vdia=1
+							while vdia<=31
+								if vdia<10 then
+									cdia="0"&vdia
+								else
+									cdia=""&vdia
+								end if
+								%>
+								<option value="<%=vdia%>"><%=cdia%></option>
+								<%
+								vdia=vdia+1
+							wend
+							%>
+							</select>
+							/
+							<select name="mesnac">
+							<option value="0">Mes</option>
+							<%
+							vmes=1
+							while vmes<=12
+								cmes=mes(vmes)
+								%>
+								<option value="<%=vmes%>"><%=cmes%></option>
+								<%
+								vmes=vmes+1
+							wend
+							%>
+							</select>
+							/
+							<select name="anionac">
+							<option value="0">A&ntilde;o</option>
+							<%
+							
+							vanio=1930
+							while vanio<=(year(now)-15)
+								%>
+								<option value="<%=vanio%>"><%=vanio%></option>
+								<%
+								vanio=vanio+1
+							wend
+							%>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">RFC</td>
+						<td align="left"><input type="text" name="rfc" maxlength="15" size="25" onChange="abrirajax('prg_funcionesajax.asp', 6, this.value, 'dato6');"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2" colspan="2"><div id="dato6"></div></td>				
+					</tr>
+					<tr>
+						<td id="texto_tablas2">CURP</td>
+						<td align="left"><input type="text" name="curp" maxlength="18" size="25"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Seguro Social</td>
+						<td align="left"><input type="text" name="nss" maxlength="11" size="25"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Puesto</td>
+						<td>
+							<select name="selpuesto" class="select-normal">
+							<option value="0" selected>Selecciona</option>
+							<%
+							sql="select id_puesto, descripcion from tc_puesto order by descripcion;"
+							set rs=Conn.execute(sql)
+							
+							while not rs.eof
+							%>
+								<option value="<%=rs("id_puesto")%>"><%=rs("descripcion")%>
+							<%
+								rs.movenext
+							wend
+							%>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Plaza</td>
+						<td align="left"><input type="text" name="plaza" maxlength="25" size="25"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Sueldo</td>
+						<td align="left"><input type="text" name="sueldo" maxlength="10" size="25" onChange="validanumero(this.value);"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Tipo de Bono</td>
+						<td align="left">
+							<select name="selbono"  class="select-normal" onchange="abrirajax('prg_funcionesajax.asp', 1, this.value, 'dato1');">
+							<option value="0" selected>Selecciona</option>
+							<%
+							sql="select id_tipobono, descripcion from tc_tipobono order by descripcion;"
+							set rs=Conn.execute(sql)
+							
+							while not rs.eof
+							%>
+								<option value="<%=rs("id_tipobono")%>"><%=rs("descripcion")%></option>
+							<%
+								rs.movenext
+							wend
+							%>
+							</select>
+						</td>
+					</tr>
+					<tr id="dato1">
+						<td id="texto_tablas2" colspan="2">
+						</td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Estado</td>
+						<td align="left"><select name="estado" onchange="abrirajax('prg_funcionesajax.asp', 2, this.value, 'dato2');">
+							<option value="0" selected>Selecciona</option>
+							<%
+							sql="select id_estado, nombre from tc_estado order by id_estado;"
+							set rs=Conn.execute(sql)
+							
+							while not rs.eof
+							%>
+								<option value="<%=rs("id_estado")%>"><%=rs("nombre")%></option>
+							<%
+								rs.movenext
+							wend
+							%>
+							</select>
+						</td>
+					</tr>
+					<tr id="dato2">
+						<td id="texto_tablas2" colspan="2"></td>				
+					</tr>
+					<tr id="dato3">
+						<td id="texto_tablas2" colspan="2"></td>				
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Calle</td>
+						<td align="left"><input type="text" name="calle" maxlength="50" size="25"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Tel&eacute;fono</td>
+						<td align="left"><input type="text" name="tel" maxlength="10" size="25"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Tel&eacute;fono Celular</td>
+						<td align="left"><input type="text" name="cel" maxlength="15" size="25"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Usuario</td>
+						<td align="left"><input type="text" name="usuario" maxlength="11" size="25" onChange="abrirajax('prg_funcionesajax.asp', 4, this.value, 'dato4');"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2" colspan="2"><div id="dato4"></div></td>				
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Correo</td>
+						<td align="left"><input type="text" name="correo" maxlength="50" size="25"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Numero de Empleado</td>
+						<td align="left"><input type="text" name="noemp" maxlength="11" size="25" onChange="abrirajax('prg_funcionesajax.asp', 5, this.value, 'dato5');"></td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2" colspan="2"><div id="dato5"></div></td>				
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Banco</td>
+						<td align="left"><select name="selbanco">
+							<option value="0" selected class="select-normal">Selecciona</option>
+							<%
+							sql="select id_banco, banco from tc_banco order by banco;"
+							set rs=Conn.execute(sql)
+							
+							while not rs.eof
+							%>
+								<option value="<%=rs("id_banco")%>"><%=rs("banco")%></option>
+							<%
+								rs.movenext
+							wend
+							%>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Tipo de Cuenta</td>
+						<td align="left">
+							<select name="seltipcta" class="select-normal">
+							<option value="0" selected>Selecciona</option>
+							<%
+							sql="select id_tipocuenta, descripcion from tc_tipocuenta order by descripcion;"
+							set rs=Conn.execute(sql)
+							
+							while not rs.eof
+							%>
+								<option value="<%=rs("id_tipocuenta")%>"><%=rs("descripcion")%></option>
+							<%
+								rs.movenext
+							wend
+							%>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td id="texto_tablas2">Cuenta de Deposito</td>
+						<td align="left"><input type="text" name="cuentadep" maxlength="20" size="25"></td>
+					</tr>
+				</table>
+				<br><br>
+				<input type="button" value="Guardar" onClick="return validar(forma1)" class="button">
+				<input type="button" value="Cancelar" onClick="javascript: backToPage();" class="button">
+				<br><br>
+				<%
+				rs.close
+				close_conn(Conn)
+				%>
+			</div>
+		</form>
 		</div>
-	</form>
+		</div>
+	</div>
 </body>
 </html>

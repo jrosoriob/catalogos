@@ -8,12 +8,12 @@ if vhacer=1 then
 	opcion=request.querystring("opcion")
 	if opcion=2 or opcion=3 then
 	%>
-	<table width="100%">
-	<tr>
-		<td id="texto_tablas2" width="98">Bono</td>
-		<td><input type="text" name="bono" maxlength="10" size="25" onChange="validanumero(this.value);"></td>
-	</tr>
-	</table>
+	<td>
+		Bono
+	</td>
+		<td>
+		<input type="text" name="bono" maxlength="10" size="25" onChange="validanumero(this.value);">
+	</td>
 	<%
 	else
 	%>
@@ -24,54 +24,49 @@ end if
 
 if vhacer=2 then
 	opcion=request.querystring("opcion")
-
 	%>
-	<table width="100%">
-		<tr>
-			<td id="texto_tablas2" width="98">Municipios</td>
-			<td><select name="selmun" onchange="abrirajax('prg_funcionesajax.asp', 3, this.value, 'dato3');">
-				<option value="0" selected>Selecciona
-				<%
+		<td>
+			Municipio
+		</td>	
+		<td>
+			<select name="selmun" class="select-normal" onchange="abrirajax('prg_funcionesajax.asp', 3, this.value, 'dato3', true);">
+			<option value="0" selected>Selecciona</option>
+			<%
 				sql="select id_delegacion, nombre from tc_delegacion where id_estado="&opcion&" order by nombre;"
 				set rs=Conn.execute(sql)
-					
 				while not rs.eof
-				%>
-					<option value="<%=rs("id_delegacion")%>"><%=rs("nombre")%>
-				<%
+					%>
+						<option value="<%=rs("id_delegacion")%>"><%=rs("nombre")%></option>
+					<%
 					rs.movenext
 				wend
 			%>
-			</td>
-		</tr>
-	</table>
+		</td>
 	<%
-
 end if
 
 if vhacer=3 then
 	opcion=request.querystring("opcion")
 
-	%>
-	<table width="100%">
-		<tr>
-			<td id="texto_tablas2" width="98">Colonia</td>
-			<td><select name="selcol" >
-				<option value="0" selected>Selecciona
+	%>	
+		<td>
+			Colonia
+		</td>
+		<td>
+			<select name="selcol" class="select-normal">
+				<option value="0" selected>Selecciona</option>
 				<%
-				sql="select id_colonia, nombre from tc_colonia where id_delegacion="&opcion&" order by nombre;"
-				set rs=Conn.execute(sql)
-					
-				while not rs.eof
+					sql="select id_colonia, nombre from tc_colonia where id_delegacion="&opcion&" order by nombre;"
+					set rs=Conn.execute(sql)
+					while not rs.eof
 				%>
-					<option value="<%=rs("id_colonia")%>"><%=rs("nombre")%>
+					<option value="<%=rs("id_colonia")%>"><%=rs("nombre")%></option>
 				<%
 					rs.movenext
 				wend
-			%>
-			</td>
-		</tr>
-	</table>
+				%>
+			</select>
+		</td>
 	<%
 
 end if

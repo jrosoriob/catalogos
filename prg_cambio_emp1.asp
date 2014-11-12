@@ -4,7 +4,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
 <title>Entrada</title>
-<link rel="stylesheet" type="text/css" href="estilos.css" />
+	<link href="css/styles_v2.css" rel="stylesheet" type="text/css">
+	<link href="css/forms.css" rel="stylesheet" type="text/css">
+	<link href="css/tables.css" rel="stylesheet" type="text/css">
 </head>
 <script language="JavaScript" type="text/javascript" src="ajax.js"></script>
 <script LANGUAGE="JavaScript1.1">
@@ -45,42 +47,77 @@ if session("sesusu")="" then
 end if
 	
 %>
-	<form action="prg_cambio_emp2.asp" method="post" name="forma1" onSubmit="return validar(forma1)">
-		<div align="center">
-		<br><br>
-		<h5>
-			Cambio de Empleado
-		</h5>
-		<table border="0">
-			<tr>
-				<td id="texto_tablas2">Empleado</td>
-				<td align="left"><select name="selemp">
-					<option value="0" selected>Selecciona
-					<%
-					sql="select id_empleados, nombre, ap_paterno, ap_materno from catalogos.dbo.tc_empleados where estatus=1 order by 3,4,2;"
-					set rs=Conn.execute(sql)
-					
-					while not rs.eof
-					%>
-						<option value="<%=rs("id_empleados")%>"><%=rs("ap_paterno")%>&nbsp;<%=rs("ap_materno")%>&nbsp;<%=rs("nombre")%>
-					<%
-						rs.movenext
-					wend
-					%>
-					</select>
-				</td>
-			</tr>
+<div id="wrap">
+	<div id="content">
+		<div id="content_">
+				<%display_children Session("app"), 0, 1, Session("sessuc"), Session("sesperfil")%>
+			<form action="prg_cambio_emp2.asp" method="post" name="forma1" onSubmit="return validar(forma1)"  class="dark-matter">
+				<h1>
+					<img src="images/gt9039p/32x32/group.png" border="0"> Catálogo de Empleados
+				</h1>
+				<div class="datagrid">
+					<table>
+						<thead>						
+							<tr>
+								<th align="center">No.</th>
+								<th align="center">Empleado</th>
+								<th align="center">RFC</th>
+								<th align="center" colspan="2">Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+						
+						<%
+							sql="select id_empleados, rfc ,RTRIM(LTRIM(nombre)) + ' ' + RTRIM(LTRIM(ap_paterno)) + ' ' + RTRIM(LTRIM(ap_materno)) AS [employed] from catalogos.dbo.tc_empleados where estatus=1 order by 1,2,3;"
+							set rs=Conn.execute(sql)
+							
+							rowcount = 0
+							clase = "alt"
+							while not rs.eof
+							rowcount = rowcount + 1
+						%>
+							<tr class="<%=clase%>">
+								<td align="right" valign="top"><%=rs("id_empleados")%></td>
+								<td align="left" valign="top"><%=rs("employed")%></td>
+								<td align="left" valign="top"><%=rs("rfc")%></td>
+								<td align="center">
+									<a href="prg_cambio_emp2.asp?employed_id=<%=rs("id_empleados")%>">
+										<img src="images/gt9039p/16x16/group_edit.png" border="0" alt="Editar" title="Editar"></a>
+								</td>
+								<td align="center">
+									<a href="prg_baja_emp1.asp?employed_id=<%=rs("id_empleados")%>&employed_name=<%=rs("employed")%>">
+										<img src="images/gt9039p/16x16/group_delete.png" border="0" alt="Baja" title="Baja">
+									</a>
+								</td>
+							</tr>
+						<%
+							If clase = "alt" Then
+								clase = ""
+							Else
+								clase = "alt"
+							End If
 
-			
-		</table>
-		<br><br>
-		<input type="submit" value="Cambiar datos de Empleado">
-		<br><br>
-		<%
-		rs.close
-		close_conn(Conn)
-		%>
+							rs.movenext
+						wend
+						%>
+						</tbody>
+						<tfoot>
+							<tr class="alt1">
+								<td colspan="7" align="right"><strong><%=rowcount%> Registros Encontrados</strong></td>
+							</tr>
+						</tfoot>
+					</table>
+					
+					<%
+					rs.close
+					close_conn(Conn)
+					%>
+				</div>
+				<br>
+					<button type="submit"  class="button">Cambiar datos de Empleado</button>
+			</form>
 		</div>
-	</form>
+	</div>
+</div>
 </body>
 </html>
