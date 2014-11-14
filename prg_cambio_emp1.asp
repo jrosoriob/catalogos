@@ -53,8 +53,13 @@ end if
 				<%display_children Session("app"), 0, 1, Session("sessuc"), Session("sesperfil")%>
 			<form action="prg_cambio_emp2.asp" method="post" name="forma1" onSubmit="return validar(forma1)"  class="dark-matter">
 				<h1>
-					<img src="images/gt9039p/32x32/group.png" border="0"> Catálogo de Empleados
+					<img src="images/gt9039p/32x32/group.png" border="0"> Catálogo de empleados
 				</h1>
+				<div style="text-align: right">
+					<a href="prg_cambio_emp2.asp?employed_id=0" class="link-btn">Agregar empleado</a>
+					<br>
+					<br>
+				</div>
 				<div class="datagrid">
 					<table>
 						<thead>						
@@ -78,14 +83,18 @@ end if
 						%>
 							<tr class="<%=clase%>">
 								<td align="right" valign="top"><%=rs("id_empleados")%></td>
-								<td align="left" valign="top"><%=rs("employed")%></td>
-								<td align="left" valign="top"><%=rs("rfc")%></td>
+								<td align="left" valign="top">
+									<a class="link-btn-black" href="prg_cambio_emp2.asp?employed_id=<%=rs("id_empleados")%>"><%=rs("employed")%></a>
+								</td>
+								<td align="left" valign="top">
+									<a class="link-btn-black" href="prg_cambio_emp2.asp?employed_id=<%=rs("id_empleados")%>"><%=rs("rfc")%></a>
+								</td>
 								<td align="center">
-									<a href="prg_cambio_emp2.asp?employed_id=<%=rs("id_empleados")%>">
+									<a class="link-btn-black" href="prg_cambio_emp2.asp?employed_id=<%=rs("id_empleados")%>">
 										<img src="images/gt9039p/16x16/group_edit.png" border="0" alt="Editar" title="Editar"></a>
 								</td>
 								<td align="center">
-									<a href="prg_baja_emp1.asp?employed_id=<%=rs("id_empleados")%>&employed_name=<%=rs("employed")%>">
+									<a class="link-btn-black" href="prg_baja_emp1.asp?employed_id=<%=rs("id_empleados")%>&employed_name=<%=rs("employed")%>">
 										<img src="images/gt9039p/16x16/group_delete.png" border="0" alt="Baja" title="Baja">
 									</a>
 								</td>
@@ -114,7 +123,6 @@ end if
 					%>
 				</div>
 				<br>
-					<button type="submit"  class="button">Cambiar datos de Empleado</button>
 			</form>
 		</div>
 	</div>

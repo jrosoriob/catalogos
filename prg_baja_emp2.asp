@@ -79,7 +79,6 @@ function abrirajax(pagina, par1, par2, div){
 					if len(comentario)>0 then
 						sql="insert into catalogos.dbo.td_comentarios (comentario, fmovimiento, usuario_mov, id_empleado) values ('"&comentario&"', "&varfecact&", '"&session("sesusu")&"', "&varselemp&");"
 						Conn.execute sql
-					'	response.write "sql3.-"&sql&"<br>"
 					end if
 					
 				if Err.Number <> 0 then

@@ -4,7 +4,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
 <title>Entrada</title>
-<link rel="stylesheet" type="text/css" href="estilos.css" />
+	<link href="css/styles_v2.css" rel="stylesheet" type="text/css">
+	<link href="css/forms.css" rel="stylesheet" type="text/css">
 </head>
 <script language="JavaScript" type="text/javascript" src="ajax.js"></script>
 
@@ -12,6 +13,11 @@
 <!--#include file="prg_indice_base.asp"-->                  
 
 <body>
+	<div id="wrap">
+		<div id="content">
+			<div id="content_">
+				<%display_children Session("app"), 0, 1, Session("sessuc"), Session("sesperfil")%>
+					<form class="dark-matter">
 <%
 Dim Conn, rs
 set Conn=conexion4(Conn1)
@@ -57,6 +63,9 @@ arreglo3(22)=request.form("edociv")
 arreglo3(23)=request.form("estudio")
 arreglo3(24)=request.form("tel")
 arreglo3(25)=request.form("cel")
+arreglo3(26)=request.form("varfonacot")
+arreglo3(27)=request.form("varinfonavit")
+arreglo3(28)=request.form("correo_personal")
 
 comentario=request.form("comenta")
 
@@ -106,12 +115,12 @@ varfecact=varanioact&cvarmesact&cvardiaact
 
 varselemp=request.form("selemp")
 
-sql="select isnull(nombre,0) as nombre, isnull(ap_paterno,0) as ap_paterno, isnull(ap_materno,0) asap_materno, isnull(cve_depto,0) as cve_depto, isnull(fingreso,0) as fingreso, isnull(fnacimiento,0) as fnacimiento, isnull(rfc,0) as rfc, isnull(curp,0) as curp, isnull(nss,0) as nss, isnull(cve_puesto,0) ascve_puesto, isnull(plaza,0) as plaza, isnull(sueldo,0) as sueldo, isnull(tipobono,0) as tipobono, isnull(bono,0) as bono, isnull(direccion,0) as direccion, isnull(id_colonia,0) as id_colonia, isnull(correo,0) as correo, isnull(noemp,0) as noemp, isnull(cuenta_dep,0) as cuenta_dep, isnull(banco,0) as banco, isnull(tipo_cuenta,0) as tipo_cuenta, isnull(sexo,0) as sexo, isnull(edocivil,0) as edocivil, isnull(estudios,0) as estudios, isnull(telefono,0) as telefono, isnull(celular,0) as celular from catalogos.dbo.tc_empleados where id_empleados = "&varselemp&";"
+sql="select isnull(nombre,0) as nombre, isnull(ap_paterno,0) as ap_paterno, isnull(ap_materno,0) asap_materno, isnull(cve_depto,0) as cve_depto, isnull(fingreso,0) as fingreso, isnull(fnacimiento,0) as fnacimiento, isnull(rfc,0) as rfc, isnull(curp,0) as curp, isnull(nss,0) as nss, isnull(cve_puesto,0) ascve_puesto, isnull(plaza,0) as plaza, isnull(sueldo,0) as sueldo, isnull(tipobono,0) as tipobono, isnull(bono,0) as bono, isnull(direccion,0) as direccion, isnull(id_colonia,0) as id_colonia, isnull(correo,0) as correo, isnull(noemp,0) as noemp, isnull(cuenta_dep,0) as cuenta_dep, isnull(banco,0) as banco, isnull(tipo_cuenta,0) as tipo_cuenta, isnull(sexo,0) as sexo, isnull(edocivil,0) as edocivil, isnull(estudios,0) as estudios, isnull(telefono,0) as telefono, isnull(celular,0) as celular, isnull(num_inf,0) as num_inf, isnull(fonacot_num,0) as fonacot_num, isnull(correo_personal,0) as correo_personal from catalogos.dbo.tc_empleados where id_empleados = "&varselemp&";"
 set rs=Conn.execute(sql)
 
 cuenta=0
 
-while cuenta<26
+while cuenta<29
 	arreglo(cuenta)=rs.fields(cuenta)
 	cuenta=cuenta+1
 wend
@@ -142,6 +151,9 @@ arreglo2(22, 0)="edocivil"
 arreglo2(23, 0)="estudios"
 arreglo2(24, 0)="telefono"
 arreglo2(25, 0)="celular"
+arreglo2(26, 0)="fonacot_num"
+arreglo2(27, 0)="num_inf"
+arreglo2(28, 0)="correo_personal"
 
 arreglo2(0, 1)="CAMBIO DE NOMBRE"
 arreglo2(1, 1)="CAMBIO DE AP_PATERNO"
@@ -196,6 +208,9 @@ arreglo2(22, 2)=2
 arreglo2(23, 2)=2
 arreglo2(24, 2)=1
 arreglo2(25, 2)=1
+arreglo2(26, 2)=1
+arreglo2(27, 2)=1
+arreglo2(28, 2)=1
 
 rs.close
 
@@ -204,6 +219,8 @@ on error resume next
 	Conn.beginTrans
 	
 	cuenta2=0
+	 
+
 	while cuenta2<cuenta
 	
 		var1=arreglo(cuenta2)
@@ -211,8 +228,6 @@ on error resume next
 		campo=arreglo2(cuenta2, 0)
 		msg=arreglo2(cuenta2, 1)
 		tipo=arreglo2(cuenta2, 2)
-
-		'response.write "el valor de cuenta2 es "&cuenta2&" El campo es "&campo&" el valor act es "&var2&" y el anterior "&var1&" actualizando el campo "&campo&"<br>"
 		
 		if ltrim(rtrim(var1))<>ltrim(rtrim(var2)) then
 			
@@ -221,8 +236,8 @@ on error resume next
 			else
 				sql="update tc_empleados set "&campo&"="&var2&" where id_empleados="&varselemp&";"
 			end if
+
 			Conn.execute sql
-			'response.write sql
 			sql="insert into td_movemp (desc_mov, valor_ant, valor_act, fmovimiento, usuario_mov, id_empleado) values ('"&msg&"', '"&var1&"', '"&var2&"', "&varfecact&", '"&session("sesusu")&"', "&varselemp&");"
 			Conn.execute sql
 		end if
@@ -260,6 +275,9 @@ end if
 
 		
 		%>
-		
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

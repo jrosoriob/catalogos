@@ -100,32 +100,21 @@ if vhacer=4 then
 
 end if
 
-if vhacer=5 then
-	opcion=request.querystring("opcion")
-
+if vhacer = 5 then
+	opcion = request.querystring("opcion")
+ 
+ if opcion <> 0 then
+		sql="select count(*) cuenta from tc_empleados where noemp="&opcion&";"
+		set rs=Conn.execute(sql)
+		if rs("cuenta") > 0 then
 	%>
-	<table width="100%">
-		<tr>
-			<td id="texto_tablas_tit">
-				<%
-				sql="select count(*) cuenta from tc_empleados where noemp="&opcion&";"
-				
-				set rs=Conn.execute(sql)
-				if rs("cuenta")>0 then
-					
-				%>
-					El n&uacute;mero de empleado que tecleaste ya existe
-					<input type="hidden" name="existemp" value="1">
-				<%else%>
-					<input type="hidden" name="existemp" value="0">
-				<%
-				end if
-				%>
-			</td>
-		</tr>
-	</table>
+		<label><font class="errors">El n&uacute;mero de empleado que tecleaste ya existe</font></label>
+		<input type="hidden" name="existemp" value="1">
+	<%else%>
+		<input type="hidden" name="existemp" value="0">
 	<%
-
+		end if
+	end if
 end if
 
 if vhacer=6 then
