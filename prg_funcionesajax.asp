@@ -114,34 +114,24 @@ if vhacer = 5 then
 		<input type="hidden" name="existemp" value="0">
 	<%
 		end if
+	else
+	%>
+		<label><font class="errors">El n&uacute;mero de empleado que tecleaste ya existe</font></label>
+	<%
 	end if
 end if
 
 if vhacer=6 then
 	opcion=request.querystring("opcion")
-
+	sql="select count(*) cuenta from tc_empleados where rfc='"&opcion&"';"
+	set rs=Conn.execute(sql)
+	if rs("cuenta")>0 then
 	%>
-	<table width="100%">
-		<tr>
-			<td id="texto_tablas_tit">
-				<%
-				sql="select count(*) cuenta from tc_empleados where rfc='"&opcion&"';"
-				
-				set rs=Conn.execute(sql)
-				if rs("cuenta")>0 then
-					
-				%>
-					El RFC de empleado que tecleaste ya existe
-					<input type="hidden" name="existrfc" value="1">
-				<%else%>
-					<input type="hidden" name="existrfc" value="0">
-				<%
-				end if
-				%>
-			</td>
-		</tr>
-	</table>
+		El RFC de empleado que tecleaste ya existe
+		<input type="hidden" name="existrfc" value="1">
+	<%else%>
+		<input type="hidden" name="existrfc" value="0">
 	<%
-
+		end if
 end if
 %>

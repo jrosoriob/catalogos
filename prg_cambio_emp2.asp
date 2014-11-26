@@ -259,7 +259,7 @@ function validar(formulario) {
 
 					selemp = Request.QueryString("employed_id")
 
-					sql="select nombre, ap_paterno, ap_materno, cve_depto, fingreso, fnacimiento, rfc, curp, nss, num_inf, correo_personal, fonacot_num, cve_puesto, plaza, sueldo, tipobono, bono, direccion, id_colonia, usuario, clave, correo, noemp, estatus, cuenta_dep, banco, tipo_cuenta, sexo, edocivil, estudios, telefono, celular from catalogos.dbo.tc_empleados where id_empleados = "&selemp&";"
+					sql="select nombre, ap_paterno, ap_materno, cve_depto, fingreso, fnacimiento, rfc, curp, nss, num_inf, correo_personal, fonacot_num, cve_puesto, plaza, sueldo, tipobono, bono, direccion, id_colonia, usuario, clave, correo, noemp, estatus, cuenta_dep, banco, tipo_cuenta, sexo, edocivil, estudios, telefono, celular, IFE, comp_dom, pagare, contrato from catalogos.dbo.tc_empleados where id_empleados = "&selemp&";"
 					set rs=Conn.execute(sql)
 					Response.write(ucase(rs("nss")))
 
@@ -296,7 +296,12 @@ function validar(formulario) {
 					varedociv=rs("edocivil")
 					varestudios=rs("estudios")
 					vartelefono=rs("telefono")
-					varcelular=rs("celular")
+					varcelular = rs("celular")
+					varIFE = rs("IFE")
+					varcomp_dom = rs("comp_dom")
+					varpagare = rs("pagare")
+					varcontrato = rs("contrato")
+
 
 					sql="select a.id_delegacion, b.id_estado from tc_colonia a, tc_delegacion b where a.id_delegacion=b.id_delegacion and a.id_colonia= "&varselcol&";"
 
@@ -319,7 +324,7 @@ function validar(formulario) {
 					varanionac= 0
 					varrfc=""
 					varcurp=""
-					varnss= 0
+					varnss= ""
 					varfonacot = ""
 					varinfonavit = ""
 					varselpuesto=""
@@ -343,13 +348,21 @@ function validar(formulario) {
 					vartelefono=""
 					varcelular=""
 					vardelegacion=0
-
-
+					varIFE = 0
 				END If
-
-
-			%>
-				<form action="prg_cambio_emp3.asp" method="post" name="forma1" onSubmit="return validar(forma1)" class="dark-matter">
+				%>
+				<%
+					If Request.QueryString("employed_id") > 0 Then
+				%>	
+					<form action="prg_cambio_emp3.asp" method="post" name="forma1" onSubmit="return validar(forma1)" class="dark-matter">
+				<%
+					ELSE
+				%>
+					<form action="prg_alta_emp2.asp" method="post" name="forma1" onSubmit="return validar(forma1)" class="dark-matter">
+				<%
+					END IF
+				%>
+				
 					<br>
 					<input type="hidden" name="employed_id" id="employed_id" value="<%=employed_id%>" />
 					<h1>
@@ -363,11 +376,11 @@ function validar(formulario) {
 							<td align="left"><input type="text" name="nombre" maxlength="45" size="25" value="<%=varnombre%>"></td>
 						</tr>
 						<tr>
-							<td id="texto_tablas2">Apellido Paterno</td>
+							<td id="texto_tablas2">Apellido paterno</td>
 							<td align="left"><input type="text" name="apaterno" maxlength="45" size="25" value="<%=varap%>"></td>
 						</tr>
 						<tr>
-							<td id="texto_tablas2">Apellido Materno</td>
+							<td id="texto_tablas2">Apellido materno</td>
 							<td align="left"><input type="text" name="amaterno" maxlength="45" size="25" value="<%=varam%>"></td>
 						</tr>
 						<tr>
@@ -396,7 +409,7 @@ function validar(formulario) {
 							</td>
 						</tr>
 						<tr>
-							<td id="texto_tablas2">Estado Civil</td>
+							<td id="texto_tablas2">Estado civil</td>
 							<td align="left">
 								<select name="edociv" class="select-normal">
 								<option value="0" >Selecciona</option>
@@ -421,7 +434,7 @@ function validar(formulario) {
 							</td>
 						</tr>
 						<tr>
-							<td id="texto_tablas2">Nivel M&aacute;ximo de Estudios</td>
+							<td id="texto_tablas2">Nivel m&aacute;ximo de estudios</td>
 							<td align="left">
 								<select name="estudio" class="select-normal">
 								<option value="0" >Selecciona</option>
@@ -543,7 +556,7 @@ function validar(formulario) {
 							</td>
 						</tr>
 						<tr>
-							<td id="texto_tablas2">Fecha de Nacimiento</td>
+							<td id="texto_tablas2">Fecha de nacimiento</td>
 							<td align="left">
 								<select name="dianac">
 								<option value="0">D&iacute;a</option>
@@ -613,11 +626,13 @@ function validar(formulario) {
 						</tr>
 						<tr>
 							<td id="texto_tablas2">RFC</td>
-							<td align="left"><input type="text" name="rfc" maxlength="15" size="25" value="<%=varrfc%>" onChange="abrirajax('prg_funcionesajax.asp', 6, this.value, 'dato6');"></td>
+							<td align="left">
+								<input type="text" name="rfc" maxlength="15" size="25" value="<%=varrfc%>" onChange="abrirajax('prg_funcionesajax.asp', 6, this.value, 'dato6');">
+								<div id="dato6"></div>
+							</td>
+							
 						</tr>
-						<tr>
-							<td id="texto_tablas2" colspan="2"><div id="dato6"></div></td>				
-						</tr>
+						
 						<tr>
 							<td id="texto_tablas2">CURP</td>
 							<td align="left"><input type="text" name="curp" maxlength="18" size="25" value="<%=varcurp%>"></td>
@@ -668,9 +683,9 @@ function validar(formulario) {
 							<td align="left"><input type="text" name="sueldo" maxlength="10" size="25" onChange="validanumero(this.value);" value="<%=varsueldo%>"></td>
 						</tr>
 						<tr>
-							<td id="texto_tablas2">Tipo de Bono</td>
+							<td id="texto_tablas2">Tipo de bono</td>
 							<td align="left">
-								<select name="selbono" onchange="abrirajax('prg_funcionesajax.asp', 1, this.value, 'dato1');">
+								<select class="select-normal" name="selbono" onchange="abrirajax('prg_funcionesajax.asp', 1, this.value, 'dato1');">
 								<option value="0">Selecciona</option>
 								<%
 								sql="select id_tipobono, descripcion from tc_tipobono order by descripcion;"
@@ -793,7 +808,7 @@ function validar(formulario) {
 					<td align="left"><input type="text" name="tel" maxlength="10" size="25" value="<%=vartelefono%>"></td>
 				</tr>
 				<tr>
-					<td id="texto_tablas2">Tel&eacute;fono Celular</td>
+					<td id="texto_tablas2">Tel&eacute;fono celular</td>
 					<td align="left"><input type="text" name="cel" maxlength="15" size="25" value="<%=varcelular%>"></td>
 				</tr>
 				<tr>
@@ -806,7 +821,7 @@ function validar(formulario) {
 						ELSE
 					%>
 						<td align="left" id="texto_tablas2">
-							<input type="text" name="correo_personal" maxlength="50" size="25" value="<%=varusuario%>" >
+							<input type="text" name="usuario" maxlength="50" size="25" value="<%=varusuario%>" >
 						</td>
 					<%
 						End if
@@ -823,7 +838,7 @@ function validar(formulario) {
 					</td>
 				</tr>
 				<tr>
-					<td id="texto_tablas2">Numero de Empleado</td>
+					<td id="texto_tablas2">Numero de empleado</td>
 					<td align="left">
 						<input type="text" name="noemp" maxlength="11" size="25" onChange="abrirajax('prg_funcionesajax.asp', 5, this.value, 'dato5');" value="<%=varnoemp%>">
 						<div id="dato5"></div>
@@ -831,7 +846,8 @@ function validar(formulario) {
 				</tr>
 				<tr>
 					<td id="texto_tablas2">Banco</td>
-					<td align="left"><select name="selbanco">
+					<td align="left">
+						<select name="selbanco">
 						<option value="0" selected>Selecciona</option>
 						<%
 						sql="select id_banco, banco from tc_banco order by banco;"
@@ -855,7 +871,7 @@ function validar(formulario) {
 					</td>
 				</tr>
 				<tr>
-					<td id="texto_tablas2">Tipo de Cuenta</td>
+					<td id="texto_tablas2">Tipo de cuenta</td>
 					<td align="left">
 						<select name="seltipcta" class="select-normal">
 						<option value="0" selected>Selecciona</option>
@@ -883,6 +899,32 @@ function validar(formulario) {
 				<tr>
 					<td id="texto_tablas2">Número de cuenta</td>
 					<td align="left"><input type="text" name="cuentadep" maxlength="20" size="25" value="<%=varcuentadep%>"></td>
+				</tr>
+				<tr style="">
+					<td colspan="2">
+						<center>
+							<table style="width: 80%">
+								<tr>
+									<td id="texto_tablas2">INE</td>
+									<td align="left">
+										<input type="checkbox" name="cbxine" "<% IF varIFE = 1 THEN %> checked <% END IF %>">
+									</td>
+									<td id="texto_tablas2">Comprobante domicilio</td>
+									<td align="left">
+										<input type="checkbox" name="cbxdomicilio" "<% IF varcomp_dom = 1 THEN %> checked <% END IF %>">
+									</td>
+									<td id="texto_tablas2">Pagare</td>
+									<td align="left">
+										<input type="checkbox" name="cbxpagare" "<% IF varpagare = 1 THEN %> checked <% END IF %>">
+									</td>
+									<td id="texto_tablas2">Contrato</td>
+									<td align="left">
+										<input type="checkbox" name="cbxcontrato" "<% IF varcontrato = 1 THEN %> checked <% END IF %>">
+									</td>
+								</tr>	
+							</table>
+						</center>
+					</td>
 				</tr>
 				<tr>
 					<td id="texto_tablas2">Comentarios</td>

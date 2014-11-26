@@ -60,6 +60,16 @@
 					varselbanco=request.form("selbanco")
 					varseltipcta=request.form("seltipcta")
 					varcuentadep=request.form("cuentadep")
+					varIFE	=	request.form("cbxine")
+					varcomp_dom	=	request.form("cbxdomicilio")
+					varpagare	=	request.form("cbxpagare")
+					varcontrato	=	request.form("cbxcontrato")
+
+					IF request.form("cbxine") = "on" then varIFE = 1 end IF
+					IF request.form("cbxdomicilio") = "on" then varcomp_dom = 1 end IF
+					IF request.form("cbxpagare") = "on" then varpagare = 1 end IF
+					IF request.form("cbxcontrato") = "on" then varcontrato = 1 end IF
+
 
 					if varmesing<10 then
 						cvarmesing="0"&varmesing
@@ -107,9 +117,9 @@
 
 					on error resume next
 						Conn.beginTrans
-						sql="insert into catalogos.dbo.tc_empleados (nombre, ap_paterno, ap_materno, cve_depto, fingreso, fnacimiento, rfc, curp, nss, cve_puesto, plaza, sueldo, tipobono, bono, direccion, id_colonia, usuario, clave, correo, noemp, estatus, cuenta_dep, banco, tipo_cuenta, sexo, edocivil, estudios, telefono, celular, claveacceso) values ('"&varnombre&"', '"&varap&"', '"&varam&"', "&varseldepto&", "&varfecing&", "&varfecnac&", '"&varrfc&"', '"&varcurp&"', '"&varnss&"', "&varselpuesto&", '"&varplaza&"', "&varsueldo&", "&varselbono&", "&varbono&", '"&varcalle&"', "&varselcol&", '"&varusuario&"', '"&varusuario&"', '"&varcorreo&"', "&varnoemp&", 1, '"&varcuentadep&"', "&varselbanco&", "&varseltipcta&", "&varsexo&", "&varedociv&", "&varestudio&", '"&vartel&"', '"&varcel&"',catalogos.dbo.fnColocaClave('"&varusuario&"'));"
+						sql="insert into catalogos.dbo.tc_empleados (nombre, ap_paterno, ap_materno, cve_depto, fingreso, fnacimiento, rfc, curp, nss, cve_puesto, plaza, sueldo, tipobono, bono, direccion, id_colonia, usuario, clave, correo, noemp, estatus, cuenta_dep, banco, tipo_cuenta, sexo, edocivil, estudios, telefono, celular, claveacceso, ife, comp_dom, pagare, contrato) values ('"&varnombre&"', '"&varap&"', '"&varam&"', "&varseldepto&", "&varfecing&", "&varfecnac&", '"&varrfc&"', '"&varcurp&"', '"&varnss&"', "&varselpuesto&", '"&varplaza&"', "&varsueldo&", "&varselbono&", "&varbono&", '"&varcalle&"', "&varselcol&", '"&varusuario&"', '"&varusuario&"', '"&varcorreo&"', "&varnoemp&", 1, '"&varcuentadep&"', "&varselbanco&", "&varseltipcta&", "&varsexo&", "&varedociv&", "&varestudio&", '"&vartel&"', '"&varcel&"',catalogos.dbo.fnColocaClave('"&varusuario&"'), "&varIFE&", "&varcomp_dom&", "&varpagare&", "&varcontrato&" );"
 						
-						'response.write sql
+						response.write sql
 							Conn.execute sql
 						
 						sql="select id_empleados from catalogos.dbo.tc_empleados where rfc='"&varrfc&"' and usuario='"&varusuario&"';"
@@ -117,7 +127,7 @@
 						varselemp=rs("id_empleados")
 						rs.close
 						
-						sql="insert into catalogos.dbo.td_movemp (desc_mov, fmovimiento, usuario_mov, id_empleado) values ('ALTA EMPLEADO', "&varfecact&", '"&session("sesusu")&"', "&varselemp&");"
+						sql="insert into catalogos.dbo.td_movemps (desc_mov, fmovimiento, usuario_mov, id_empleado) values ('ALTA EMPLEADO', "&varfecact&", '"&session("sesusu")&"', "&varselemp&");"
 						Conn.execute sql
 						
 					if Err.Number <> 0 then

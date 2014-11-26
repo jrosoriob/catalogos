@@ -54,7 +54,7 @@
 		session("sesusu")=varusu
 		session("sesperfil")=perfil
 		session("sessuc")=suc
-		Session("app") = 16
+		Session("app") = 1
 		Session.Timeout = 60
 		display_children Session("app"), 0, 1, Session("sessuc"), Session("sesperfil")
 	end if
