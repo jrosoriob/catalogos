@@ -65,12 +65,12 @@
 					varpagare	=	request.form("cbxpagare")
 					varcontrato	=	request.form("cbxcontrato")
 
-					IF request.form("cbxine") = "on" then varIFE = 1 end IF
-					IF request.form("cbxdomicilio") = "on" then varcomp_dom = 1 end IF
-					IF request.form("cbxpagare") = "on" then varpagare = 1 end IF
-					IF request.form("cbxcontrato") = "on" then varcontrato = 1 end IF
+					IF request.form("cbxine") = "on" then varIFE = 1 ELSE varIFE = 0 end IF
+					IF request.form("cbxdomicilio") = "on" then varcomp_dom = 1 ELSE varcomp_dom = 0 end IF
+					IF request.form("cbxpagare") = "on" then varpagare = 1 ELSE varpagare = 0 end IF
+					IF request.form("cbxcontrato") = "on" then varcontrato = 1 ELSE varcontrato = 0 end IF
 
-
+				
 					if varmesing<10 then
 						cvarmesing="0"&varmesing
 					else
@@ -122,13 +122,7 @@
 						response.write sql
 							Conn.execute sql
 						
-						sql="select id_empleados from catalogos.dbo.tc_empleados where rfc='"&varrfc&"' and usuario='"&varusuario&"';"
-						set rs=Conn.execute(sql)
-						varselemp=rs("id_empleados")
-						rs.close
 						
-						sql="insert into catalogos.dbo.td_movemps (desc_mov, fmovimiento, usuario_mov, id_empleado) values ('ALTA EMPLEADO', "&varfecact&", '"&session("sesusu")&"', "&varselemp&");"
-						Conn.execute sql
 						
 					if Err.Number <> 0 then
 					    Conn.RollBackTrans

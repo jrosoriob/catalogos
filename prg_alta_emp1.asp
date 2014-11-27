@@ -127,7 +127,7 @@ function validar(formulario) {
     }
     
   if(formulario.nss.value.length < 11 || formulario.nss.value.length ==0 || formulario.nss.value == " "){
-    alert("La longitud del Número del seguro social debe de ser 13 digitos");
+    alert("La longitud del Número del seguro social debe de ser 11 digitos");
     formulario.nss.focus();
     alert(formulario.nss.value);
     return false;
