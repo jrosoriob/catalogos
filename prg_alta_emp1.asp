@@ -475,9 +475,17 @@ end if
             <td align="left"><input type="text" name="curp" maxlength="18" size="25"></td>
           </tr>
           <tr>
-            <td id="texto_tablas2">Seguro Social</td>
+            <td id="texto_tablas2">N S S</td>
             <td align="left"><input type="text" name="nss" maxlength="11" size="25"></td>
           </tr>
+          <tr>
+              <td id="texto_tablas2">Crédito infonavit</td>
+              <td align="left"><input type="text" name="varinfonavit" maxlength="11" size="25" value="<%=varinfonavit%>"></td>
+            </tr>
+            <tr>
+              <td id="texto_tablas2">Crédito fonacot</td>
+              <td align="left"><input type="text" name="varfonacot" maxlength="11" size="25" value="<%=varfonacot%>"></td>
+            </tr>
           <tr>
             <td id="texto_tablas2">Puesto</td>
             <td>
@@ -626,9 +634,9 @@ end if
           <tr style="">
           <td colspan="2">
             <center>
-              <table style="width: 80%">
+              <table style="width: 100%">
                 <tr>
-                  <td id="texto_tablas2">INE</td>
+                  <td id="texto_tablas2">Identificación oficial</td>
                   <td align="left">
                     <input type="checkbox" name="cbxine">
                   </td>
